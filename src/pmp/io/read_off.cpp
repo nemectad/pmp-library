@@ -251,17 +251,41 @@ void read_off_ascii(SurfaceMesh& mesh, FILE* in, const bool has_normals,
     }
 }
 
+template <typename From>
+uint32_t bit_cast_uint32(const From& src)
+{
+    static_assert(sizeof(From) == sizeof(uint32_t), "Only 4-byte types allowed");
+    uint32_t dst;
+    std::memcpy(&dst, &src, sizeof(uint32_t));
+    return dst;
+}
+
+template <typename To, typename From>
+typename std::enable_if<sizeof(To) == sizeof(From), To>::type
+bit_cast_from_uint32(const From& src)
+{
+    static_assert(std::is_trivially_copyable<From>::value &&
+                  std::is_trivially_copyable<To>::value,
+                  "bit_cast requires trivially copyable types");
+
+    To dst;
+    std::memcpy(&dst, &src, sizeof(To));
+    return dst;
+}
+
 template <typename T>
-    requires(sizeof(T) == 4)
+    //requires(sizeof(T) == 4)
 void read_binary(FILE* in, T& t, bool swap = false)
 {
+    static_assert(sizeof(T) == 4, "read_binary only supports 4-byte types");
+
     [[maybe_unused]] auto n_items = fread((char*)&t, 1, sizeof(t), in);
 
     if (swap)
     {
-        const auto u32v = std::bit_cast<uint32_t>(t);
+        const auto u32v = bit_cast_uint32<uint32_t>(t);
         const auto vv = byteswap32(u32v);
-        t = std::bit_cast<T>(vv);
+        t = bit_cast_from_uint32<T>(vv);
     }
 }
 

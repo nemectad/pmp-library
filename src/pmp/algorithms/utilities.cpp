@@ -31,7 +31,7 @@ void flip_faces(SurfaceMesh& mesh)
         {
             vertices.push_back(v);
         }
-        std::ranges::reverse(vertices);
+        std::reverse(vertices.begin(), vertices.end());
         new_mesh.add_face(vertices);
     }
     mesh = new_mesh;

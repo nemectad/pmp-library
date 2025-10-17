@@ -8,7 +8,7 @@
 #include "pmp/algorithms/laplace.h"
 
 #include <algorithm>
-#include <numbers>
+//constexpr double pi = 3.14159265358979323846;
 
 namespace pmp {
 
@@ -115,7 +115,7 @@ void CurvatureAnalyzer::analyze(unsigned int post_smoothing_steps)
             }
 
             mean = 0.5 * LX.row(v.idx()).norm() / area;
-            gauss = (2.0 * std::numbers::pi - sum_angles) / area;
+            gauss = (2.0 * pi - sum_angles) / area;
 
             const Scalar s = sqrt(std::max(Scalar(0.0), mean * mean - gauss));
             kmin = mean - s;
@@ -371,7 +371,7 @@ void curvature_to_texture_coordinates(SurfaceMesh& mesh)
     {
         values.push_back(curvatures[v]);
     }
-    std::ranges::sort(values);
+    std::sort(values.begin(), values.end());
     const unsigned int n = values.size() - 1;
     // std::cout << "curvatures in [" << values[0] << ", " << values[n] << "]\n";
 

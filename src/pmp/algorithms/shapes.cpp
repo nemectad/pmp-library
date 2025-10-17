@@ -8,7 +8,6 @@
 #include <algorithm>
 #include <cmath>
 #include <algorithm>
-#include <numbers>
 
 namespace pmp {
 namespace {
@@ -48,7 +47,7 @@ SurfaceMesh hexahedron()
 {
     SurfaceMesh mesh;
 
-    const float a = std::numbers::inv_sqrt3_v<float>;
+    const float a = 1.0f / std::sqrt(3.0f);
     auto v0 = mesh.add_vertex(Point(-a, -a, -a));
     auto v1 = mesh.add_vertex(Point(a, -a, -a));
     auto v2 = mesh.add_vertex(Point(a, a, -a));
@@ -166,11 +165,11 @@ SurfaceMesh uv_sphere(const Point& center, Scalar radius, size_t n_slices,
     // generate vertices per stack / slice
     for (size_t i = 0; i < n_stacks - 1; i++)
     {
-        const auto phi = std::numbers::pi * double(i + 1) / double(n_stacks);
+        const auto phi = pi * double(i + 1) / double(n_stacks);
         for (size_t j = 0; j < n_slices; ++j)
         {
             const auto theta =
-                2.0 * std::numbers::pi * double(j) / double(n_slices);
+                2.0 * pi * double(j) / double(n_slices);
             const auto x = center[0] + radius * std::sin(phi) * std::cos(theta);
             const auto y = center[1] + radius * std::cos(phi);
             const auto z = center[2] + radius * std::sin(phi) * std::sin(theta);
@@ -258,7 +257,7 @@ SurfaceMesh cone(size_t n_subdivisions, Scalar radius, Scalar height)
     for (size_t i = 0; i < n_subdivisions; i++)
     {
         const Scalar ratio = static_cast<Scalar>(i) / (n_subdivisions);
-        const Scalar r = ratio * (std::numbers::pi * 2.0);
+        const Scalar r = ratio * (pi * 2.0);
         const Scalar x = std::cos(r) * radius;
         const Scalar y = std::sin(r) * radius;
         auto v = mesh.add_vertex(Point(x, y, 0.0));
@@ -276,7 +275,7 @@ SurfaceMesh cone(size_t n_subdivisions, Scalar radius, Scalar height)
     }
 
     // reverse order for consistent face orientation
-    std::ranges::reverse(base_vertices);
+    std::reverse(base_vertices.begin(), base_vertices.end());
 
     // add polygonal base face
     mesh.add_face(base_vertices);
@@ -296,7 +295,7 @@ SurfaceMesh cylinder(size_t n_subdivisions, Scalar radius, Scalar height)
     for (size_t i = 0; i < n_subdivisions; i++)
     {
         const Scalar ratio = static_cast<Scalar>(i) / (n_subdivisions);
-        const Scalar r = ratio * (std::numbers::pi * 2.0);
+        const Scalar r = ratio * (pi * 2.0);
         const Scalar x = std::cos(r) * radius;
         const Scalar y = std::sin(r) * radius;
         Vertex v = mesh.add_vertex(Point(x, y, 0.0));
@@ -319,7 +318,7 @@ SurfaceMesh cylinder(size_t n_subdivisions, Scalar radius, Scalar height)
     mesh.add_face(top_vertices);
 
     // reverse order for consistent face orientation
-    std::ranges::reverse(bottom_vertices);
+    std::reverse(bottom_vertices.begin(), bottom_vertices.end());
 
     // add bottom polygon
     mesh.add_face(bottom_vertices);
@@ -341,9 +340,9 @@ SurfaceMesh torus(size_t radial_resolution, size_t tubular_resolution,
         for (size_t j = 0; j < tubular_resolution; j++)
         {
             const Scalar u = static_cast<Scalar>(j) / tubular_resolution *
-                             std::numbers::pi * 2.0;
+                             pi * 2.0;
             const Scalar v = static_cast<Scalar>(i) / radial_resolution *
-                             std::numbers::pi * 2.0;
+                             pi * 2.0;
             const Scalar x = (radius + thickness * std::cos(v)) * std::cos(u);
             const Scalar y = (radius + thickness * std::cos(v)) * std::sin(u);
             const Scalar z = thickness * std::sin(v);
