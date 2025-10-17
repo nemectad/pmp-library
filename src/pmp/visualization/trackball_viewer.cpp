@@ -5,7 +5,6 @@
 #include "pmp/stop_watch.h"
 #include <imgui.h>
 #include <algorithm>
-#include <numbers>
 
 namespace pmp {
 
@@ -294,8 +293,8 @@ bool TrackballViewer::map_to_sphere(const ivec2& point2D, vec3& result)
         const double h = height();
         const double x = (double)(point2D[0] - 0.5 * w) / w;
         const double y = (double)(0.5 * h - point2D[1]) / h;
-        const double sinx = sin(std::numbers::pi * x * 0.5);
-        const double siny = sin(std::numbers::pi * y * 0.5);
+        const double sinx = sin(pi * x * 0.5);
+        const double siny = sin(pi * y * 0.5);
         const double sinx2siny2 = sinx * sinx + siny * siny;
 
         result[0] = sinx;
@@ -327,7 +326,7 @@ void TrackballViewer::rotation(int x, int y)
             if (fabs(cos_angle) < 1.0)
             {
                 const float angle =
-                    2.0 * acos(cos_angle) * 180.0 / std::numbers::pi;
+                    2.0 * acos(cos_angle) * 180.0 / pi;
                 rotate(axis, angle);
             }
         }
@@ -344,7 +343,7 @@ void TrackballViewer::translation(int x, int y)
     const float z = -(ec[2] / ec[3]);
 
     const float aspect = (float)width() / (float)height();
-    const float up = tan(fovy_ / 2.0f * std::numbers::pi / 180.f) * near_;
+    const float up = tan(fovy_ / 2.0f * pi / 180.f) * near_;
     const float right = aspect * up;
 
     translate(vec3(2.0 * dx / width() * right / near_ * z,

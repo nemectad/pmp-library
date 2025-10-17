@@ -103,13 +103,24 @@ void write_off(const SurfaceMesh& mesh, const std::filesystem::path& file,
     fclose(out);
 }
 
+template <typename From>
+uint32_t bit_cast_uint32(const From& src)
+{
+    static_assert(sizeof(From) == sizeof(uint32_t), "Only 4-byte types allowed");
+    uint32_t dst;
+    std::memcpy(&dst, &src, sizeof(uint32_t));
+    return dst;
+}
+
 template <class T>
-    requires(sizeof(T) == 4)
+    //requires(sizeof(T) == 4)
 void write_binary(std::ofstream& ofs, const T& val)
 {
+    static_assert(sizeof(T) == 4, "read_binary only supports 4-byte types");
+
     if constexpr (std::endian::native == std::endian::little)
     {
-        const auto u32v = std::bit_cast<uint32_t>(val);
+        const auto u32v = bit_cast_uint32<uint32_t>(val);
         const auto vv = byteswap32(u32v);
         ofs.write(reinterpret_cast<const char*>(&vv), sizeof(vv));
     }

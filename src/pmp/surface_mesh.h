@@ -6,7 +6,7 @@
 
 #include <cassert>
 #include <cstddef>
-#include <compare>
+//#include <compare>
 #include <filesystem>
 #include <iterator>
 #include <ostream>
@@ -45,7 +45,32 @@ public:
     bool is_valid() const { return idx_ != PMP_MAX_INDEX; }
 
     //! are two handles equal?
-    auto operator<=>(const Handle& rhs) const = default;
+    //auto operator<=>(const Handle& rhs) const = default;
+    
+    bool operator==(const Handle& rhs) const {
+        return idx_ == rhs.idx_;
+    }
+
+    bool operator!=(const Handle& rhs) const {
+        return idx_ != rhs.idx_;
+    }
+
+    bool operator<(const Handle& rhs) const {
+        return idx_ < rhs.idx_;
+    }
+
+    bool operator<=(const Handle& rhs) const {
+        return idx_ <= rhs.idx_;
+    }
+
+    bool operator>(const Handle& rhs) const {
+        return idx_ > rhs.idx_;
+    }
+
+    bool operator>=(const Handle& rhs) const {
+        return idx_ >= rhs.idx_;
+    }
+
 
 private:
     friend class SurfaceMesh;
@@ -225,7 +250,15 @@ public:
         Vertex operator*() const { return handle_; }
 
         //! Three-way comparison operator.
-        auto operator<=>(const VertexIterator& rhs) const = default;
+        //auto operator<=>(const VertexIterator& rhs) const = default;
+
+        bool operator==(const VertexIterator& rhs) const {
+            return handle_ == rhs.handle_ && mesh_ == rhs.mesh_;
+        }
+
+        bool operator!=(const VertexIterator& rhs) const {
+            return !(*this == rhs);
+        }
 
         //! pre-increment iterator
         VertexIterator& operator++()
@@ -296,7 +329,15 @@ public:
         Halfedge operator*() const { return handle_; }
 
         //! Three-way comparison operator.
-        auto operator<=>(const HalfedgeIterator& rhs) const = default;
+        //auto operator<=>(const HalfedgeIterator& rhs) const = default;
+
+        bool operator==(const HalfedgeIterator& rhs) const {
+            return handle_ == rhs.handle_ && mesh_ == rhs.mesh_;
+        }
+
+        bool operator!=(const HalfedgeIterator& rhs) const {
+            return !(*this == rhs);
+        }
 
         //! pre-increment iterator
         HalfedgeIterator& operator++()
@@ -366,7 +407,16 @@ public:
         Edge operator*() const { return handle_; }
 
         //! Three-way comparison operator.
-        auto operator<=>(const EdgeIterator& rhs) const = default;
+        //auto operator<=>(const EdgeIterator& rhs) const = default;
+        
+        bool operator==(const EdgeIterator& rhs) const {
+            return handle_ == rhs.handle_ && mesh_ == rhs.mesh_;
+        }
+
+        bool operator!=(const EdgeIterator& rhs) const {
+            return !(*this == rhs);
+        }
+
 
         //! pre-increment iterator
         EdgeIterator& operator++()
@@ -436,7 +486,16 @@ public:
         Face operator*() const { return handle_; }
 
         //! Three-way comparison operator
-        auto operator<=>(const FaceIterator& rhs) const = default;
+        //auto operator<=>(const FaceIterator& rhs) const = default;
+        
+        bool operator==(const FaceIterator& rhs) const {
+            return handle_ == rhs.handle_ && mesh_ == rhs.mesh_;
+        }
+
+        bool operator!=(const FaceIterator& rhs) const {
+            return !(*this == rhs);
+        }
+
 
         //! pre-increment iterator
         FaceIterator& operator++()

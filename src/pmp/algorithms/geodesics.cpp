@@ -8,7 +8,6 @@
 #include <cassert>
 #include <set>
 #include <map>
-#include <numbers>
 
 namespace pmp {
 namespace {
@@ -101,7 +100,7 @@ void Geodesics::find_virtual_edges()
     Scalar f, alpha, beta, tan_beta;
 
     const Scalar one(1.0), minus_one(-1.0);
-    const Scalar max_angle = 90.0 / 180.0 * std::numbers::pi;
+    const Scalar max_angle = 90.0 / 180.0 * pi;
     const Scalar max_angle_cos = cos(max_angle);
 
     virtual_edges_.clear();
@@ -214,7 +213,7 @@ unsigned int Geodesics::compute(const std::vector<Vertex>& seed, Scalar maxdist,
     // sort one-ring neighbors of seed vertices
     if (neighbors)
     {
-        std::ranges::sort(*neighbors, VertexCmp(distance_));
+        std::sort(neighbors->begin(), neighbors->end(), VertexCmp(distance_));
     }
 
     // correct if seed vertices have more than maxnum neighbors

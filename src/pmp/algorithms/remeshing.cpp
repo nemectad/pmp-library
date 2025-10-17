@@ -8,7 +8,6 @@
 #include <algorithm>
 #include <memory>
 #include <limits>
-#include <numbers>
 
 #include "pmp/algorithms/curvature.h"
 #include "pmp/algorithms/normals.h"
@@ -536,7 +535,7 @@ void Remeshing::preprocessing()
             else
             {
                 // this does not really make sense
-                h = e * 3.0 / std::numbers::sqrt3;
+                h = e * 3.0 / 1.73205080757;
             }
 
             // clamp to min. and max. edge length
@@ -1044,7 +1043,7 @@ void Remeshing::remove_caps()
     Halfedge h;
     Vertex v, vb, vd;
     Scalar a0, a1, amin;
-    const Scalar aa(::cos(170.0 * std::numbers::pi / 180.0));
+    const Scalar aa(::cos(170.0 * pi / 180.0));
     Point a, b, c, d;
 
     for (auto e : mesh_.edges())

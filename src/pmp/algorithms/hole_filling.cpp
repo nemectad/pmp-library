@@ -538,7 +538,7 @@ void HoleFilling::remove_caps()
     Halfedge h;
     Vertex v, vb, vd;
     Scalar a0, a1, amin;
-    const Scalar aa(::cos(170.0 * std::numbers::pi / 180.0));
+    const Scalar aa(::cos(170.0 * pi / 180.0));
     Point a, b, c, d;
 
     for (auto e : mesh_.edges())

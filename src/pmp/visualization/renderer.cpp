@@ -11,7 +11,6 @@
 #include "pmp/visualization/cold_warm_texture.h"
 #include "pmp/algorithms/normals.h"
 
-#include <numbers>
 
 namespace pmp {
 
@@ -315,7 +314,7 @@ void Renderer::update_opengl_buffers()
 
         // convert from degrees to radians
         const Scalar crease_angle_radians =
-            crease_angle_ / 180.0 * std::numbers::pi;
+            crease_angle_ / 180.0 * pi;
 
         size_t vidx(0);
 

@@ -23,7 +23,8 @@ void read(SurfaceMesh& mesh, const std::filesystem::path& file)
 
     // extension determines reader
     auto ext = file.extension().string();
-    std::ranges::transform(ext, ext.begin(), ::tolower);
+    std::transform(ext.begin(), ext.end(), ext.begin(), 
+        [](unsigned char c){ return std::tolower(c); });
 
     if (ext == ".obj")
         read_obj(mesh, file);
@@ -41,7 +42,8 @@ void write(const SurfaceMesh& mesh, const std::filesystem::path& file,
            const IOFlags& flags)
 {
     auto ext = file.extension().string();
-    std::ranges::transform(ext, ext.begin(), tolower);
+    std::transform(ext.begin(), ext.end(), ext.begin(), 
+        [](unsigned char c){ return std::tolower(c); });
 
     // extension determines reader
     if (ext == ".obj")
